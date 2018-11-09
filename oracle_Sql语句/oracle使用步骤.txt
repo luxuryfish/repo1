@@ -1,0 +1,32 @@
+1、把 xp_oracle_student.rar 解压到当前目录下名为 xp_oracle_student 的文件夹中
+
+2、运行 xp_oracle_student 目录下的 xp_oralce.vmx，会把 虚拟机 挂到 VMWare中
+
+3、VMWare 菜单
+	编辑-->虚拟网络编辑器-->更改设置(右下角)-->添加网络-->VMnet2-->子网IP改为 192.168.80.0-->应用-->确定
+	
+4、新建环境变量
+	右击-->我的电脑-->属性-->高级系统设置-->环境变量-->系统变量-->新建
+		变量名：TNS_ADMIN
+		变量值：tnsnames.ora 文件所在目录
+		
+5、乱码解决
+	5.1、打开PL/SQL,查看服务器端编码
+		select userenv('language') from dual;
+	我实际查到的结果为:AMERICAN_AMERICA.ZHS16GBK
+	5.2、执行语句 select * from V$NLS_PARAMETERS 
+		查看第一行中PARAMETER项中为NLS_LANGUAGE 对应的VALUE项中是否和第一步得到的值一样。
+		如果不是，需要设置环境变量.
+		否则PLSQL客户端使用的编码和服务器端编码不一致,插入中文时就会出现乱码.
+	5.3、设置环境变量
+		计算机->属性->高级系统设置->环境变量->新建
+		设置变量名:NLS_LANG,变量值:第1步查到的值， 我的是	AMERICAN_AMERICA.ZHS16GBK
+	5.4、重新启动PLSQL,插入数据正常
+	
+6、oracle用户
+	sys/system/scott
+	itcast
+
+
+
+192.168.80.88:1521/orcl
